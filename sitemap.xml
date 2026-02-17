@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.goiconicway.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.goiconicway.com/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.abenteuermietenamerika.de/"/>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.goiconicway.com/teslamodely_flipcard1.jpg</image:loc>
+      <image:title>Tesla Model Y Camper with Rooftop Tent</image:title>
+      <image:caption>Tesla Model Y camping setup for USA road trips and Route 66</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.goiconicway.com/cybertruck_flipcard2.jpg</image:loc>
+      <image:title>Tesla Cybertruck Off-Grid Camping</image:title>
+      <image:caption>Cybertruck with Starlink and camping gear</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.goiconicway.com/14-days-sunsets-skyline.jpg</image:loc>
+      <image:title>Route 66 Tesla Road Trip</image:title>
+      <image:caption>Route 66 - 14 days from Chicago to Santa Monica in a Tesla</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Fleet Section -->
+  <url>
+    <loc>https://www.goiconicway.com/#fleet</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Routes Section -->
+  <url>
+    <loc>https://www.goiconicway.com/#routes</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- AI Concierge Section -->
+  <url>
+    <loc>https://www.goiconicway.com/#concierge</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- About/Founder Section -->
+  <url>
+    <loc>https://www.goiconicway.com/#founder</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- App Section -->
+  <url>
+    <loc>https://www.goiconicway.com/#app-portal</loc>
+    <lastmod>2026-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>

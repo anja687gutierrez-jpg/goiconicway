@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local
+
+# Firebase
+.firebase/
+
+# Node (in case any tooling is added later)
+node_modules/

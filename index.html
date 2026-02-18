@@ -7325,17 +7325,18 @@
                 const action = btn.dataset.action;
                 const target = btn.dataset.target;
 
-                hideMessage();
-
                 switch(action) {
                     case 'scroll':
+                        hideMessage();
                         const el = document.querySelector(target);
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
                         break;
                     case 'whatsapp':
+                        hideMessage();
                         window.open('https://wa.me/13106006624?text=Hallo,%20Klausy%20hat%20mich%20geschickt!', '_blank');
                         break;
                     case 'download':
+                        hideMessage();
                         // PDF download - check if placeholder or real URL
                         if (target && !target.startsWith('#PDF_PLACEHOLDER')) {
                             window.open(target, '_blank');
@@ -7350,6 +7351,8 @@
                         // "Maybe Later" - longer cooldown (3 minutes), not permanent
                         hideMessage(180);
                         break;
+                    default:
+                        hideMessage();
                 }
 
                 if (window.gtag) {

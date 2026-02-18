@@ -197,20 +197,19 @@
         }
 
         .logo-text .logo-line-1 {
-            display: block;
+            display: inline;
+            color: var(--text-main);
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
+            font-weight: 700;
+        }
+
+        .logo-text .logo-line-2 {
+            display: inline;
             background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 0.7rem;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .logo-text .logo-line-2 {
-            display: block;
-            color: var(--text-main);
             font-size: 1.25rem;
             font-weight: 700;
             letter-spacing: -0.5px;
@@ -5338,8 +5337,7 @@
     <nav class="mobile-nav-drawer" id="mobileNavDrawer">
         <div class="mobile-nav-header">
             <div class="mobile-nav-logo">
-                <span style="display:block; font-size:0.65rem; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.7);">GoIconic</span>
-                <span style="display:block; font-size:1.1rem; font-weight:700; color:#fff;">Way</span>
+                <span style="display:inline; font-size:1.1rem; font-weight:700; color:#fff;">GoIconic</span><span style="display:inline; font-size:1.1rem; font-weight:700; background:linear-gradient(135deg,#0ea5e9,#06b6d4,#14b8a6); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Way</span>
             </div>
             <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close Menu">
                 <i class="fas fa-times"></i>
@@ -8152,7 +8150,7 @@ Please confirm availability!`;
             'routes': 'routes',
             'testimonials': 'testimonials',
             'contact': 'contact',
-            'booking-bar': 'home',
+            'booking-bar': 'booking-bar',
             'concept': 'fleet',
             'concierge': 'routes',
             'founder': 'testimonials',
@@ -8187,7 +8185,7 @@ Please confirm availability!`;
             desktopNavLinks.forEach(link => {
                 link.classList.remove('active');
                 const href = link.getAttribute('href')?.replace('#', '');
-                if (sectionNavMap[href] === current || href === current) {
+                if (href === current) {
                     link.classList.add('active');
                 }
             });

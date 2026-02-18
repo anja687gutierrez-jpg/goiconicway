@@ -5300,7 +5300,7 @@
             <a href="#home" class="logo-link">
                 <div class="logo-text">
                     <span class="logo-line-1">GoIconic</span>
-                    <span class="logo-line-2">Way</span>
+                    <span class="logo-line-2">Way<sup style="font-size: 0.45em; vertical-align: super; font-weight: 400;">&trade;</sup></span>
                 </div>
             </a>
             <div class="nav-links">
@@ -5469,10 +5469,9 @@
                     
                     <div class="input-group">
                         <label data-de="Abholung" data-en="Pickup">Abholung</label>
-                        <select class="input-field">
-                            <option>Los Angeles (LAX)</option>
-                            <option>Las Vegas (LAS)</option>
-                            <option>San Francisco (SFO)</option>
+                        <select class="input-field" id="pickupSelect">
+                            <option value="Los Angeles, CA">Los Angeles, CA</option>
+                            <option value="Las Vegas, NV">Las Vegas, NV</option>
                         </select>
                     </div>
 
@@ -5489,15 +5488,17 @@
                     <div class="input-group" style="flex: 1.5;">
                         <label data-de="Fahrzeug Wählen" data-en="Choose Vehicle">Fahrzeug Wählen</label>
                         <select class="input-field" id="carSelect">
-                            <option data-price="149">Model Y (Camping Suite)</option>
-                            <option data-price="299">Cybertruck (Off-Grid)</option>
-                            <option data-price="119">Model Y (Budget)</option>
+                            <option data-price="149" data-type="model_y_camping">Model Y (Camping Suite)</option>
+                            <option data-price="299" data-type="cybertruck">Cybertruck (Off-Grid)</option>
+                            <option data-price="119" data-type="model_y_budget">Model Y (Budget)</option>
                         </select>
                     </div>
 
                     <button class="check-btn" data-de="Verfügbarkeit Prüfen" data-en="Check Availability">Verfügbarkeit Prüfen</button>
                 </form>
-                
+
+                <p style="text-align: center; font-size: 0.8rem; color: #9ca3af; margin-top: 0.75rem;" data-de="Neue Abholorte werden laufend hinzugefügt. Schreib uns für individuelle Abholung." data-en="New pickup locations added regularly. Text us for custom pickup.">New pickup locations added regularly. <a href="https://wa.me/13106006624" target="_blank" style="color: #f97316; text-decoration: none;">Text us</a> for custom pickup.</p>
+
                 <!-- Real-time Estimate Display -->
                 <div class="booking-estimate" id="bookingEstimate">
                     <div class="estimate-item">
@@ -5510,6 +5511,7 @@
                     </div>
                     <span class="estimate-note" data-de="Endpreis bei Buchung bestätigt" data-en="Final price confirmed at booking">Endpreis bei Buchung bestätigt</span>
                 </div>
+
             </div> 
         </div>
     </section>
@@ -6296,10 +6298,6 @@
                     <p><i class="fas fa-clock"></i> <span data-de="Mo-So: 9:00 - 18:00 Uhr" data-en="Mon-Sun: 9:00 AM - 6:00 PM">Mo-So: 9:00 - 18:00 Uhr</span></p>
                 </div>
 
-                <div class="footer-section">
-                    <h3 data-de="Adresse" data-en="Address">Adresse</h3>
-                    <p>6445 S Tenaya Way, Suite 110<br>Las Vegas, NV 89113<br>USA</p>
-                </div>
 
                 <div class="footer-section">
                     <h3 data-de="Services" data-en="Services">Services</h3>
@@ -6329,7 +6327,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p><span data-de="© 2026 Gutierrez Ventures LLC DBA GoIconicWay. Alle Rechte vorbehalten." data-en="© 2026 Gutierrez Ventures LLC DBA GoIconicWay. All rights reserved.">© 2026 Gutierrez Ventures LLC DBA GoIconicWay. All rights reserved.</span> | Made with <i class="fas fa-heart"></i> for adventurers</p>
+                <p><span data-de="© 2026 Gutierrez Ventures LLC DBA GoIconicWay™. Alle Rechte vorbehalten." data-en="© 2026 Gutierrez Ventures LLC DBA GoIconicWay™. All rights reserved.">© 2026 Gutierrez Ventures LLC DBA GoIconicWay™. All rights reserved.</span> | Made with <i class="fas fa-heart"></i> for adventurers</p>
             </div>
         </div>
     </footer>
@@ -6679,12 +6677,12 @@
             if (!form) return; 
 
             // 2. Find inputs INSIDE that form specifically
-            const locationSelect = form.querySelector('select');
+            const locationSelect = document.getElementById('pickupSelect');
             const carSelect = document.getElementById('carSelect');
             const startDateInput = document.getElementById('startDate');
             const returnDateInput = document.getElementById('returnDate');
             const checkBtn = form.querySelector('.check-btn');
-            
+
             // Estimate display elements
             const estimateContainer = document.getElementById('bookingEstimate');
             const totalDaysEl = document.getElementById('totalDays');
@@ -6747,67 +6745,103 @@
                 carSelect.addEventListener('change', calculateEstimate);
             }
 
-            // 6. Handle Click - Enhanced WhatsApp Message with Markdown
+            // 6. Handle Click - Show email modal for checkout
+            const CHECKOUT_API = 'http://localhost:3000/api/public/checkout';
+            const BOOKING_SOURCE = 'goiconicway';
+            const BOOKING_LOCALE = 'en';
+
+            const emailModal = document.getElementById('emailModal');
+            const emailInput = document.getElementById('emailModalInput');
+            const emailSubmit = document.getElementById('emailModalSubmit');
+            const emailClose = document.getElementById('emailModalClose');
+            const emailError = document.getElementById('emailModalError');
+            const emailSummary = document.getElementById('emailModalSummary');
+
+            // Store form data for checkout submission
+            let pendingCheckout = null;
+
             if(checkBtn) {
                 checkBtn.addEventListener('click', function(e) {
-                    e.preventDefault(); 
+                    e.preventDefault();
 
-                    // Basic Validation
                     if(!startDateInput.value || !returnDateInput.value) {
                         alert("Please select both a start and return date.");
                         return;
                     }
 
-                    // Format Data
+                    const selectedOption = carSelect.options[carSelect.selectedIndex];
                     const pickup = locationSelect.value;
                     const start = startDateInput.value;
                     const end = returnDateInput.value;
-                    const car = carSelect.value;
-                    
-                    // Calculate days for message
-                    const startDate = new Date(start);
-                    const returnDate = new Date(end);
-                    const days = Math.max(1, Math.ceil((returnDate - startDate) / (1000 * 60 * 60 * 24)));
-                    
-                    // Get price info
-                    const selectedOption = carSelect.options[carSelect.selectedIndex];
+                    const days = Math.max(1, Math.ceil((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24)));
                     const pricePerDay = parseInt(selectedOption.getAttribute('data-price')) || 150;
                     const totalPrice = days * pricePerDay;
-                    
-                    // Format dates nicely
-                    const formatDate = (dateStr) => {
-                        const d = new Date(dateStr);
-                        return d.toLocaleDateString('en-US', { 
-                            weekday: 'short', 
-                            month: 'short', 
-                            day: 'numeric', 
-                            year: 'numeric' 
-                        });
+
+                    pendingCheckout = {
+                        vehicleType: selectedOption.getAttribute('data-type'),
+                        pickupDate: start,
+                        dropoffDate: end,
+                        pickupLocation: pickup,
                     };
 
-                    // Construct Message with WhatsApp Markdown (*bold*)
-                    const rawMessage = 
-`*🚗 BOOKING REQUEST*
-━━━━━━━━━━━━━━━━━
+                    emailSummary.innerHTML = `<strong>${carSelect.value}</strong> &middot; ${days} day${days > 1 ? 's' : ''} &middot; $${totalPrice.toLocaleString()} &middot; ${pickup}`;
+                    emailError.style.display = 'none';
+                    emailInput.value = '';
+                    emailModal.style.display = 'flex';
+                    emailInput.focus();
+                });
+            }
 
-*Vehicle:* ${car}
-*Location:* ${pickup}
+            if(emailClose) {
+                emailClose.addEventListener('click', function() {
+                    emailModal.style.display = 'none';
+                });
+            }
+            if(emailModal) {
+                emailModal.addEventListener('click', function(e) {
+                    if (e.target === emailModal) emailModal.style.display = 'none';
+                });
+            }
 
-*📅 Dates:*
-• Start: ${formatDate(start)}
-• Return: ${formatDate(end)}
-• Duration: *${days} day${days > 1 ? 's' : ''}*
+            if(emailSubmit) {
+                emailSubmit.addEventListener('click', async function() {
+                    const email = emailInput.value.trim();
+                    if (!email || !email.includes('@')) {
+                        emailError.textContent = 'Please enter a valid email address.';
+                        emailError.style.display = 'block';
+                        return;
+                    }
 
-*💰 Estimate:* ~$${totalPrice.toLocaleString()}
-_(at $${pricePerDay}/day)_
+                    emailSubmit.disabled = true;
+                    emailSubmit.textContent = 'Processing...';
+                    emailError.style.display = 'none';
 
-━━━━━━━━━━━━━━━━━
-Please confirm availability!`;
+                    try {
+                        const res = await fetch(CHECKOUT_API, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                ...pendingCheckout,
+                                customerEmail: email,
+                                source: BOOKING_SOURCE,
+                                locale: BOOKING_LOCALE,
+                            }),
+                        });
 
-                    // Encode the entire string once
-                    const encodedMessage = encodeURIComponent(rawMessage);
-                    const whatsappUrl = `https://wa.me/13106006624?text=${encodedMessage}`;
-                    window.open(whatsappUrl, '_blank');
+                        const data = await res.json();
+
+                        if (!res.ok) {
+                            throw new Error(data.error || 'Checkout failed');
+                        }
+
+                        // Redirect to Stripe Checkout
+                        window.location.href = data.checkoutUrl;
+                    } catch (err) {
+                        emailError.textContent = err.message || 'Something went wrong. Please try again.';
+                        emailError.style.display = 'block';
+                        emailSubmit.disabled = false;
+                        emailSubmit.textContent = 'Book Now — Secure Checkout';
+                    }
                 });
             }
         });
@@ -8313,6 +8347,22 @@ Please confirm availability!`;
     </nav>
 
     <!-- Old floating CTA removed - using unified FAB instead -->
+
+    <!-- Email Modal for Checkout -->
+    <div id="emailModal" style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:1rem; padding:2rem; max-width:420px; width:90%; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+            <button id="emailModalClose" style="position:absolute; top:0.75rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#999;">&times;</button>
+            <h3 style="margin:0 0 0.5rem; font-size:1.25rem; color:#1a1a1a;">Almost there!</h3>
+            <p style="margin:0 0 1.25rem; color:#666; font-size:0.9rem;">Enter your email to proceed to secure checkout.</p>
+            <div id="emailModalSummary" style="background:#f9f9f9; border-radius:0.5rem; padding:0.75rem 1rem; margin-bottom:1.25rem; font-size:0.85rem; color:#444;"></div>
+            <input type="email" id="emailModalInput" placeholder="your@email.com" style="width:100%; padding:0.75rem 1rem; border:2px solid #ddd; border-radius:0.5rem; font-size:1rem; box-sizing:border-box; margin-bottom:0.75rem;" />
+            <button id="emailModalSubmit" style="width:100%; padding:0.75rem; background:#f97316; color:#fff; border:none; border-radius:0.5rem; font-size:1rem; font-weight:600; cursor:pointer;">Book Now — Secure Checkout</button>
+            <div id="emailModalError" style="color:#dc2626; font-size:0.85rem; margin-top:0.5rem; display:none;"></div>
+            <p style="text-align:center; margin:1rem 0 0; font-size:0.8rem; color:#999;">
+                Prefer to chat? <a href="https://wa.me/13106006624?text=Hi,%20I'm%20interested%20in%20booking!" target="_blank" style="color:#25d366;">WhatsApp us</a>
+            </p>
+        </div>
+    </div>
 
 </body>
 </html>

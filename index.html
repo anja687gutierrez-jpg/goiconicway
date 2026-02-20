@@ -735,6 +735,10 @@
         .card-info-overlay.active {
             display: flex;
         }
+        /* Hide source popups inside cards; JS clones them into the overlay */
+        .card-info-btn > .card-info-popup {
+            display: none !important;
+        }
         .card-info-popup {
             position: relative;
             width: 320px;

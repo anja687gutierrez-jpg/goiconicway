@@ -6798,8 +6798,14 @@
                     var popup = btn.querySelector('.card-info-popup');
                     if (!popup) return;
                     popup.classList.remove('popup-below');
+                    /* Temporarily show (invisible) to measure true height */
+                    popup.style.visibility = 'hidden';
+                    popup.style.display = 'block';
+                    var popupHeight = popup.offsetHeight;
+                    popup.style.visibility = '';
+                    popup.style.display = '';
                     var rect = btn.getBoundingClientRect();
-                    if (rect.top < popup.scrollHeight + 20) {
+                    if (rect.top < popupHeight + 20) {
                         popup.classList.add('popup-below');
                     }
                 }

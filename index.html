@@ -668,13 +668,20 @@
             font-weight: 700;
             color: #0f172a;
             margin: 0;
+            flex: 1;
+            min-width: 0;
         }
-        
+
         .pokemon-card .card-price {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.4rem;
             font-weight: 800;
             color: #0f172a;
+            white-space: nowrap;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         
         .pokemon-card .card-price span {
@@ -708,7 +715,6 @@
             transition: all 0.25s;
             position: relative;
             vertical-align: middle;
-            margin-left: 8px;
             box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
         }
         .card-info-btn:hover {

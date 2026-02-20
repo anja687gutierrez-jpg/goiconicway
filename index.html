@@ -728,13 +728,12 @@
             bottom: calc(100% + 12px);
             right: -12px;
             width: 280px;
-            max-height: 320px;
             background: #fff;
             border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.18);
             z-index: 50;
             text-align: left;
-            overflow-y: auto;
+            overflow: hidden;
             white-space: normal;
         }
         .card-info-popup::after {
@@ -747,6 +746,15 @@
             background: #fff;
             transform: rotate(45deg);
             box-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+        .card-info-popup.popup-below {
+            bottom: auto;
+            top: calc(100% + 12px);
+        }
+        .card-info-popup.popup-below::after {
+            bottom: auto;
+            top: -6px;
+            box-shadow: -2px -2px 4px rgba(0,0,0,0.05);
         }
         .card-info-popup .popup-header {
             background: linear-gradient(135deg, #10b981, #0ea5e9);
@@ -6780,6 +6788,25 @@
                 aiOutput.classList.add('visible');
             }
         }
+    </script>
+
+    <script>
+        /* Info-popup flip: open downward when not enough space above */
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.card-info-btn').forEach(function(btn) {
+                function positionPopup() {
+                    var popup = btn.querySelector('.card-info-popup');
+                    if (!popup) return;
+                    popup.classList.remove('popup-below');
+                    var rect = btn.getBoundingClientRect();
+                    if (rect.top < popup.scrollHeight + 20) {
+                        popup.classList.add('popup-below');
+                    }
+                }
+                btn.addEventListener('mouseenter', positionPopup);
+                btn.addEventListener('focusin', positionPopup);
+            });
+        });
     </script>
 
     <script>

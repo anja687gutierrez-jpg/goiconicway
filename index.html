@@ -5615,6 +5615,7 @@
                     <div class="input-group" style="flex: 1.5;">
                         <label data-de="Fahrzeug Wählen" data-en="Choose Vehicle">Choose Vehicle</label>
                         <select class="input-field" id="carSelect">
+                            <option value="" disabled selected data-de="— Fahrzeug wählen —" data-en="— Choose Vehicle —">— Choose Vehicle —</option>
                             <option data-price="216" data-type="model_y_camping">Model Y (Camping Suite)</option>
                             <option data-price="299" data-type="cybertruck">Cybertruck (Off-Grid)</option>
                             <option data-price="119" data-type="model_y_budget">Model Y (Budget)</option>
@@ -6862,7 +6863,11 @@
                 
                 // Get price per day from selected car option
                 const selectedOption = carSelect.options[carSelect.selectedIndex];
-                const pricePerDay = parseInt(selectedOption.getAttribute('data-price')) || 150;
+                if (!selectedOption.getAttribute('data-price')) {
+                    estimateContainer.classList.remove('visible');
+                    return;
+                }
+                const pricePerDay = parseInt(selectedOption.getAttribute('data-price'));
                 
                 // Calculate total
                 const totalPrice = days * pricePerDay;
@@ -6918,11 +6923,15 @@
                     }
 
                     const selectedOption = carSelect.options[carSelect.selectedIndex];
+                    if (!selectedOption.getAttribute('data-type')) {
+                        alert("Please select a vehicle.");
+                        return;
+                    }
                     const pickup = locationSelect.value;
                     const start = startDateInput.value;
                     const end = returnDateInput.value;
                     const days = Math.max(1, Math.ceil((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24)));
-                    const pricePerDay = parseInt(selectedOption.getAttribute('data-price')) || 150;
+                    const pricePerDay = parseInt(selectedOption.getAttribute('data-price'));
                     const totalPrice = days * pricePerDay;
 
                     pendingCheckout = {
@@ -7644,9 +7653,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             const rentBtns = document.querySelectorAll('.pokemon-card .rent-btn');
             const vehicleMap = {
-                'Tesla Model Y Camping-Paket': 0,
-                'Cybertruck Off-Grid': 1,
-                'Model Y Budget': 2
+                'Tesla Model Y Camping-Paket': 1,
+                'Cybertruck Off-Grid': 2,
+                'Model Y Budget': 3
             };
 
             rentBtns.forEach(btn => {

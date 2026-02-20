@@ -690,116 +690,88 @@
         .pokemon-card .card-identity {
             position: relative;
         }
-        .price-info-btn {
-            background: none;
-            border: 1px solid #cbd5e1;
+        .card-info-btn {
+            background: linear-gradient(135deg, #10b981, #0ea5e9);
+            border: none;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: #94a3b8;
-            font-size: 0.6rem;
+            color: #fff;
+            font-size: 0.65rem;
             font-weight: 700;
-            transition: all 0.2s;
+            font-style: italic;
+            font-family: Georgia, serif;
+            transition: all 0.25s;
             position: relative;
             vertical-align: middle;
-            margin-left: 6px;
+            margin-left: 8px;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
         }
-        .price-info-btn:hover {
-            color: #475569;
-            border-color: #94a3b8;
+        .card-info-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 3px 10px rgba(14, 165, 233, 0.4);
         }
-        .price-tooltip {
+        .card-info-popup {
             display: none;
             position: absolute;
-            bottom: calc(100% + 8px);
-            right: -8px;
-            width: 260px;
-            background: #1e293b;
-            color: #e2e8f0;
-            font-size: 0.65rem;
-            font-weight: 400;
-            line-height: 1.5;
-            padding: 0.75rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            bottom: calc(100% + 12px);
+            right: -12px;
+            width: 280px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.18);
             z-index: 50;
             text-align: left;
+            overflow: hidden;
         }
-        .price-tooltip::after {
+        .card-info-popup::after {
             content: '';
             position: absolute;
-            bottom: -5px;
-            right: 14px;
-            width: 10px;
-            height: 10px;
-            background: #1e293b;
+            bottom: -6px;
+            right: 18px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
             transform: rotate(45deg);
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.05);
         }
-        .price-info-btn:hover .price-tooltip,
-        .price-info-btn:focus .price-tooltip {
-            display: block;
-        }
-        .stats-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 1.25rem 0;
-        }
-        .stats-info-btn {
-            background: none;
-            border: 1px solid #cbd5e1;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #94a3b8;
-            font-size: 0.65rem;
+        .card-info-popup .popup-header {
+            background: linear-gradient(135deg, #10b981, #0ea5e9);
+            color: #fff;
+            padding: 0.6rem 0.85rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            transition: all 0.2s;
-            position: relative;
+            letter-spacing: 0.03em;
         }
-        .stats-info-btn:hover {
-            color: #475569;
-            border-color: #94a3b8;
+        .card-info-popup .popup-body {
+            padding: 0.75rem 0.85rem;
+            font-size: 0.68rem;
+            color: #374151;
+            line-height: 1.55;
         }
-        .stats-tooltip {
-            display: none;
-            position: absolute;
-            bottom: calc(100% + 8px);
-            right: -8px;
-            width: 240px;
-            background: #1e293b;
-            color: #e2e8f0;
-            font-size: 0.65rem;
-            font-weight: 400;
-            text-transform: none;
-            letter-spacing: 0;
-            line-height: 1.5;
-            padding: 0.75rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 50;
-            text-align: left;
+        .card-info-popup .popup-body .popup-section {
+            margin-bottom: 0.6rem;
         }
-        .stats-tooltip::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            right: 14px;
-            width: 10px;
-            height: 10px;
-            background: #1e293b;
-            transform: rotate(45deg);
+        .card-info-popup .popup-body .popup-section:last-child {
+            margin-bottom: 0;
         }
-        .stats-info-btn:hover .stats-tooltip,
-        .stats-info-btn:focus .stats-tooltip {
+        .card-info-popup .popup-body .popup-section-title {
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.2rem;
+            font-size: 0.7rem;
+        }
+        .card-info-popup .popup-divider {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 0.5rem 0;
+        }
+        .card-info-btn:hover .card-info-popup,
+        .card-info-btn:focus .card-info-popup {
             display: block;
         }
         .stats-disclaimer {
@@ -5687,16 +5659,10 @@
                     
                     <div class="card-identity">
                         <h3 class="card-name">Tesla Model Y Camping-Paket</h3>
-                        <div class="card-price"><span class="price-prefix">from </span>$216<span>/day</span><button class="price-info-btn" aria-label="Price info">i<div class="price-tooltip">Starting price per day. Final price varies by season and is confirmed on our platform before booking. A one-time $139 service fee applies (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app access).</div></button></div>
+                        <div class="card-price"><span class="price-prefix">from </span>$216<span>/day</span><button class="card-info-btn" aria-label="Vehicle info">i<div class="card-info-popup"><div class="popup-header">Price &amp; Vehicle Info</div><div class="popup-body"><div class="popup-section"><div class="popup-section-title">Pricing</div>Starting price per day. Final price varies by season and is confirmed on our platform before booking. Plus a one-time $139 service fee (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app).</div><hr class="popup-divider"><div class="popup-section"><div class="popup-section-title">Vehicle Stats</div>Range: Estimated miles per charge (rooftop tent reduces range). 0-60: Acceleration. Charging: Max Supercharger speed. Storage: Total cargo volume. Values are for illustration only.</div></div></div></button></div>
                     </div>
 
                     <!-- Stats Section -->
-                    <div class="stats-header">
-                        <span></span>
-                        <button class="stats-info-btn" aria-label="Info">i
-                            <div class="stats-tooltip"><b>Range:</b> Estimated range per charge. May vary based on weather, cargo, and driving style. Rooftop tent reduces range.<br><b>0-60:</b> Acceleration from 0 to 60 mph.<br><b>Charging:</b> Maximum Supercharger speed.<br><b>Storage:</b> Total cargo volume.</div>
-                        </button>
-                    </div>
                     <div class="stats-section">
                         <div class="stat-row">
                             <span class="stat-label"><i class="fas fa-bolt"></i> <span data-de="Reichweite" data-en="Range">Reichweite</span></span>
@@ -5783,16 +5749,10 @@
                     
                     <div class="card-identity">
                         <h3 class="card-name">Cybertruck Off-Grid</h3>
-                        <div class="card-price"><span class="price-prefix">from </span>$299<span>/day</span><button class="price-info-btn" aria-label="Price info">i<div class="price-tooltip">Starting price per day. Final price varies by season and is confirmed on our platform before booking. A one-time $139 service fee applies (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app access).</div></button></div>
+                        <div class="card-price"><span class="price-prefix">from </span>$299<span>/day</span><button class="card-info-btn" aria-label="Vehicle info">i<div class="card-info-popup"><div class="popup-header">Price &amp; Vehicle Info</div><div class="popup-body"><div class="popup-section"><div class="popup-section-title">Pricing</div>Starting price per day. Final price varies by season and is confirmed on our platform before booking. Plus a one-time $139 service fee (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app).</div><hr class="popup-divider"><div class="popup-section"><div class="popup-section-title">Vehicle Stats</div>Range: Estimated miles per charge. 0-60: Acceleration. Charging: Max Supercharger speed. Storage: Total cargo volume. Values are for illustration only.</div></div></div></button></div>
                     </div>
 
                     <!-- Stats Section -->
-                    <div class="stats-header">
-                        <span></span>
-                        <button class="stats-info-btn" aria-label="Info">i
-                            <div class="stats-tooltip"><b>Range:</b> Estimated range per charge. May vary based on weather, cargo, and driving style.<br><b>0-60:</b> Acceleration from 0 to 60 mph.<br><b>Charging:</b> Maximum Supercharger speed.<br><b>Storage:</b> Total cargo volume.</div>
-                        </button>
-                    </div>
                     <div class="stats-section">
                         <div class="stat-row">
                             <span class="stat-label"><i class="fas fa-bolt"></i> <span data-de="Reichweite" data-en="Range">Reichweite</span></span>
@@ -5879,16 +5839,10 @@
 
                     <div class="card-identity">
                         <h3 class="card-name" data-de="Model Y Budget" data-en="Model Y Budget">Model Y Budget</h3>
-                        <div class="card-price"><span class="price-prefix">from </span>$119<span>/day</span><button class="price-info-btn" aria-label="Price info">i<div class="price-tooltip">Starting price per day. Final price varies by season and is confirmed on our platform before booking. A one-time $139 service fee applies (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app access).</div></button></div>
+                        <div class="card-price"><span class="price-prefix">from </span>$119<span>/day</span><button class="card-info-btn" aria-label="Vehicle info">i<div class="card-info-popup"><div class="popup-header">Price &amp; Vehicle Info</div><div class="popup-body"><div class="popup-section"><div class="popup-section-title">Pricing</div>Starting price per day. Final price varies by season and is confirmed on our platform before booking. Plus a one-time $139 service fee (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app).</div><hr class="popup-divider"><div class="popup-section"><div class="popup-section-title">Vehicle Stats</div>Range: Estimated miles per charge. 0-60: Acceleration. Charging: Max Supercharger speed. Storage: Total cargo volume. Values are for illustration only.</div></div></div></button></div>
                     </div>
 
                     <!-- Stats Section -->
-                    <div class="stats-header">
-                        <span></span>
-                        <button class="stats-info-btn" aria-label="Info">i
-                            <div class="stats-tooltip"><b>Range:</b> Estimated range per charge. May vary based on weather, cargo, and driving style.<br><b>0-60:</b> Acceleration from 0 to 60 mph.<br><b>Charging:</b> Maximum Supercharger speed.<br><b>Storage:</b> Total cargo volume.</div>
-                        </button>
-                    </div>
                     <div class="stats-section">
                         <div class="stat-row">
                             <span class="stat-label"><i class="fas fa-bolt"></i> <span data-de="Reichweite" data-en="Range">Reichweite</span></span>

@@ -657,6 +657,7 @@
         /* Card Identity (Name & Price) */
         .card-identity {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 1.25rem;
@@ -699,14 +700,15 @@
             position: relative;
         }
         .card-supercharging {
+            width: 100%;
             font-size: 0.68rem;
             font-weight: 600;
             background: linear-gradient(135deg, #10b981, #0ea5e9);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            padding: 0.4rem 1.25rem 0;
-            text-align: center;
+            margin-top: 0.15rem;
+            text-align: right;
         }
         .card-supercharging i {
             -webkit-text-fill-color: #10b981;
@@ -5703,8 +5705,8 @@
                     <div class="card-identity">
                         <h3 class="card-name">Model Y Camping-Paket</h3>
                         <div class="card-price"><span class="price-prefix" data-de="ab " data-en="from ">from </span>$216<span data-de="/Tag" data-en="/day">/day</span><button class="card-info-btn" aria-label="Vehicle info">i<div class="card-info-popup"><div class="popup-header" data-de="Preis &amp; Fahrzeuginfo" data-en="Price &amp; Vehicle Info">Price &amp; Vehicle Info</div><div class="popup-body"><div class="popup-section"><div class="popup-section-title" data-de="Preis" data-en="Pricing">Pricing</div><span data-de="Startpreis pro Tag. Der Endpreis variiert je nach Saison und wird vor der Buchung auf unserer Plattform bestätigt. Zzgl. einmalige Servicegebühr von $139 (Fahrzeugvorbereitung, Camping-Ausrüstung, Reinigung &amp; Iconic Pathways App)." data-en="Starting price per day. Final price varies by season and is confirmed on our platform before booking. Plus a one-time $139 service fee (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app).">Starting price per day. Final price varies by season and is confirmed on our platform before booking. Plus a one-time $139 service fee (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app).</span></div><hr class="popup-divider"><div class="popup-section"><div class="popup-section-title" data-de="Fahrzeugdaten" data-en="Vehicle Stats">Vehicle Stats</div><span data-de="Reichweite: Geschätzte km pro Ladung (Dachzelt reduziert). 0-60: Beschleunigung. Laden: Max. Supercharger-Geschwindigkeit. Stauraum: Gesamtes Ladevolumen. Werte dienen zur Veranschaulichung. Die Reichweite reduziert sich um ca. 30 % durch die Dachzelt-Erweiterung (abnehmbares Zubehör, keine permanente Modifikation — das Fahrzeug bleibt im Originalzustand gemäß Tesla-Richtlinien)." data-en="Range: Estimated miles per charge (rooftop tent reduces range). 0-60: Acceleration. Charging: Max Supercharger speed. Storage: Total cargo volume. Values are for illustration only. Range is reduced by approx. 30% due to the rooftop tent extension (removable accessory, not a permanent modification — the vehicle remains in original condition per Tesla guidelines).">Range: Estimated miles per charge (rooftop tent reduces range). 0-60: Acceleration. Charging: Max Supercharger speed. Storage: Total cargo volume. Values are for illustration only. Range is reduced by approx. 30% due to the rooftop tent extension (removable accessory, not a permanent modification — the vehicle remains in original condition per Tesla guidelines).</span></div><hr class="popup-divider"><div class="popup-section"><div class="popup-section-title" data-de="Ausstattung" data-en="Equipment">Equipment</div><span data-de="Basis-Komfortpaket inklusive. Optionale Zusatzausstattung auf Anfrage verfügbar." data-en="Basic convenience kit included. Optional additions available on request.">Basic convenience kit included. Optional additions available on request.</span></div></div></div></button></div>
+                        <div class="card-supercharging"><i class="fas fa-bolt"></i> <span data-de="Tesla Supercharging inklusive" data-en="Tesla Supercharging included">Tesla Supercharging included</span></div>
                     </div>
-                    <div class="card-supercharging"><i class="fas fa-bolt"></i> <span data-de="Tesla Supercharging inklusive" data-en="Tesla Supercharging included">Tesla Supercharging included</span></div>
 
                     <!-- Stats Section -->
                     <div class="stats-section">
@@ -5794,8 +5796,8 @@
                     <div class="card-identity">
                         <h3 class="card-name">Cybertruck Off-Grid</h3>
                         <div class="card-price"><span class="price-prefix" data-de="ab " data-en="from ">from </span>$299<span data-de="/Tag" data-en="/day">/day</span><button class="card-info-btn" aria-label="Vehicle info">i<div class="card-info-popup"><div class="popup-header" data-de="Preis &amp; Fahrzeuginfo" data-en="Price &amp; Vehicle Info">Price &amp; Vehicle Info</div><div class="popup-body"><div class="popup-section"><div class="popup-section-title" data-de="Preis" data-en="Pricing">Pricing</div><span data-de="Startpreis pro Tag. Der Endpreis variiert je nach Saison und wird vor der Buchung auf unserer Plattform bestätigt. Zzgl. einmalige Servicegebühr von $139 (Fahrzeugvorbereitung, Camping-Ausrüstung, Reinigung &amp; Iconic Pathways App)." data-en="Starting price per day. Final price varies by season and is confirmed on our platform before booking. Plus a one-time $139 service fee (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app).">Starting price per day. Final price varies by season and is confirmed on our platform before booking. Plus a one-time $139 service fee (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app).</span></div><hr class="popup-divider"><div class="popup-section"><div class="popup-section-title" data-de="Fahrzeugdaten" data-en="Vehicle Stats">Vehicle Stats</div><span data-de="Reichweite: Geschätzte km pro Ladung. 0-60: Beschleunigung. Laden: Max. Supercharger-Geschwindigkeit. Stauraum: Gesamtes Ladevolumen. Werte dienen zur Veranschaulichung." data-en="Range: Estimated miles per charge. 0-60: Acceleration. Charging: Max Supercharger speed. Storage: Total cargo volume. Values are for illustration only.">Range: Estimated miles per charge. 0-60: Acceleration. Charging: Max Supercharger speed. Storage: Total cargo volume. Values are for illustration only.</span></div><hr class="popup-divider"><div class="popup-section"><div class="popup-section-title" data-de="Ausstattung" data-en="Equipment">Equipment</div><span data-de="Basis-Komfortpaket inklusive. Optionale Zusatzausstattung auf Anfrage verfügbar." data-en="Basic convenience kit included. Optional additions available on request.">Basic convenience kit included. Optional additions available on request.</span></div></div></div></button></div>
+                        <div class="card-supercharging"><i class="fas fa-bolt"></i> <span data-de="Tesla Supercharging inklusive" data-en="Tesla Supercharging included">Tesla Supercharging included</span></div>
                     </div>
-                    <div class="card-supercharging"><i class="fas fa-bolt"></i> <span data-de="Tesla Supercharging inklusive" data-en="Tesla Supercharging included">Tesla Supercharging included</span></div>
 
                     <!-- Stats Section -->
                     <div class="stats-section">
@@ -5885,8 +5887,8 @@
                     <div class="card-identity">
                         <h3 class="card-name" data-de="Model Y Budget" data-en="Model Y Budget">Model Y Budget</h3>
                         <div class="card-price"><span class="price-prefix" data-de="ab " data-en="from ">from </span>$119<span data-de="/Tag" data-en="/day">/day</span><button class="card-info-btn" aria-label="Vehicle info">i<div class="card-info-popup"><div class="popup-header" data-de="Preis &amp; Fahrzeuginfo" data-en="Price &amp; Vehicle Info">Price &amp; Vehicle Info</div><div class="popup-body"><div class="popup-section"><div class="popup-section-title" data-de="Preis" data-en="Pricing">Pricing</div><span data-de="Startpreis pro Tag. Der Endpreis variiert je nach Saison und wird vor der Buchung auf unserer Plattform bestätigt. Zzgl. einmalige Servicegebühr von $139 (Fahrzeugvorbereitung, Camping-Ausrüstung, Reinigung &amp; Iconic Pathways App)." data-en="Starting price per day. Final price varies by season and is confirmed on our platform before booking. Plus a one-time $139 service fee (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app).">Starting price per day. Final price varies by season and is confirmed on our platform before booking. Plus a one-time $139 service fee (vehicle prep, camping equipment, cleaning &amp; Iconic Pathways app).</span></div><hr class="popup-divider"><div class="popup-section"><div class="popup-section-title" data-de="Fahrzeugdaten" data-en="Vehicle Stats">Vehicle Stats</div><span data-de="Reichweite: Geschätzte km pro Ladung. 0-60: Beschleunigung. Laden: Max. Supercharger-Geschwindigkeit. Stauraum: Gesamtes Ladevolumen. Werte dienen zur Veranschaulichung." data-en="Range: Estimated miles per charge. 0-60: Acceleration. Charging: Max Supercharger speed. Storage: Total cargo volume. Values are for illustration only.">Range: Estimated miles per charge. 0-60: Acceleration. Charging: Max Supercharger speed. Storage: Total cargo volume. Values are for illustration only.</span></div><hr class="popup-divider"><div class="popup-section"><div class="popup-section-title" data-de="Ausstattung" data-en="Equipment">Equipment</div><span data-de="Basis-Komfortpaket inklusive. Optionale Zusatzausstattung auf Anfrage verfügbar." data-en="Basic convenience kit included. Optional additions available on request.">Basic convenience kit included. Optional additions available on request.</span></div></div></div></button></div>
+                        <div class="card-supercharging"><i class="fas fa-bolt"></i> <span data-de="Tesla Supercharging inklusive" data-en="Tesla Supercharging included">Tesla Supercharging included</span></div>
                     </div>
-                    <div class="card-supercharging"><i class="fas fa-bolt"></i> <span data-de="Tesla Supercharging inklusive" data-en="Tesla Supercharging included">Tesla Supercharging included</span></div>
 
                     <!-- Stats Section -->
                     <div class="stats-section">

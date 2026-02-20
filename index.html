@@ -722,53 +722,64 @@
             transform: scale(1.15);
             box-shadow: 0 3px 10px rgba(14, 165, 233, 0.4);
         }
-        .card-info-popup {
+        /* Info modal overlay */
+        .card-info-overlay {
             display: none;
-            position: absolute;
-            bottom: calc(100% + 12px);
-            right: -12px;
-            width: 280px;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-info-overlay.active {
+            display: flex;
+        }
+        .card-info-popup {
+            position: relative;
+            width: 320px;
+            max-width: 90vw;
             background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.18);
-            z-index: 50;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
             text-align: left;
             overflow: hidden;
             white-space: normal;
+            animation: popupFadeIn 0.2s ease-out;
         }
-        .card-info-popup::after {
-            content: '';
+        @keyframes popupFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .card-info-popup .popup-close {
             position: absolute;
-            bottom: -6px;
-            right: 18px;
-            width: 12px;
-            height: 12px;
-            background: #fff;
-            transform: rotate(45deg);
-            box-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            top: 0.45rem;
+            right: 0.55rem;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.85);
+            font-size: 1.1rem;
+            cursor: pointer;
+            line-height: 1;
+            z-index: 1;
         }
-        .card-info-popup.popup-below {
-            bottom: auto;
-            top: calc(100% + 12px);
-        }
-        .card-info-popup.popup-below::after {
-            bottom: auto;
-            top: -6px;
-            box-shadow: -2px -2px 4px rgba(0,0,0,0.05);
+        .card-info-popup .popup-close:hover {
+            color: #fff;
         }
         .card-info-popup .popup-header {
             background: linear-gradient(135deg, #10b981, #0ea5e9);
             color: #fff;
-            padding: 0.6rem 0.85rem;
-            font-size: 0.7rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.03em;
+            padding-right: 2rem;
         }
         .card-info-popup .popup-body {
-            padding: 0.75rem 0.85rem;
-            font-size: 0.68rem;
+            padding: 0.85rem 1rem;
+            font-size: 0.75rem;
             color: #374151;
-            line-height: 1.55;
+            line-height: 1.6;
         }
         .card-info-popup .popup-body .popup-section {
             margin-bottom: 0.6rem;
@@ -779,17 +790,13 @@
         .card-info-popup .popup-body .popup-section-title {
             font-weight: 700;
             color: #0f172a;
-            margin-bottom: 0.2rem;
-            font-size: 0.7rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
         }
         .card-info-popup .popup-divider {
             border: none;
             border-top: 1px solid #e5e7eb;
             margin: 0.5rem 0;
-        }
-        .card-info-btn:hover .card-info-popup,
-        .card-info-btn:focus .card-info-popup {
-            display: block;
         }
         .stats-disclaimer {
             font-size: 0.55rem;
@@ -6791,26 +6798,35 @@
     </script>
 
     <script>
-        /* Info-popup flip: open downward when not enough space above */
+        /* Info modal: click to open, click overlay/X/Escape to close */
         document.addEventListener('DOMContentLoaded', function() {
+            /* Create shared overlay once */
+            var overlay = document.createElement('div');
+            overlay.className = 'card-info-overlay';
+            document.body.appendChild(overlay);
+
+            function closeModal() { overlay.classList.remove('active'); overlay.innerHTML = ''; }
+            overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+            document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
             document.querySelectorAll('.card-info-btn').forEach(function(btn) {
-                function positionPopup() {
-                    var popup = btn.querySelector('.card-info-popup');
-                    if (!popup) return;
-                    popup.classList.remove('popup-below');
-                    /* Temporarily show (invisible) to measure true height */
-                    popup.style.visibility = 'hidden';
-                    popup.style.display = 'block';
-                    var popupHeight = popup.offsetHeight;
-                    popup.style.visibility = '';
-                    popup.style.display = '';
-                    var rect = btn.getBoundingClientRect();
-                    if (rect.top < popupHeight + 20) {
-                        popup.classList.add('popup-below');
-                    }
-                }
-                btn.addEventListener('mouseenter', positionPopup);
-                btn.addEventListener('focusin', positionPopup);
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var src = btn.querySelector('.card-info-popup');
+                    if (!src) return;
+                    var clone = src.cloneNode(true);
+                    /* Add close button */
+                    var closeBtn = document.createElement('button');
+                    closeBtn.className = 'popup-close';
+                    closeBtn.innerHTML = '&times;';
+                    closeBtn.setAttribute('aria-label', 'Close');
+                    closeBtn.addEventListener('click', closeModal);
+                    clone.insertBefore(closeBtn, clone.firstChild);
+                    overlay.innerHTML = '';
+                    overlay.appendChild(clone);
+                    overlay.classList.add('active');
+                });
             });
         });
     </script>

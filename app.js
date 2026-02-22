@@ -309,6 +309,41 @@
                 });
             }
 
+            // Update all translatable elements
+            document.querySelectorAll('[data-de][data-en]').forEach(function(el) {
+                var text = el.dataset[lang];
+                if (!text) return;
+
+                // Skip if element has a child span with its own data attributes
+                var spanWithData = el.querySelector('span[data-de][data-en]');
+                if (spanWithData) return;
+
+                // No children — replace text directly
+                if (!el.children.length) {
+                    el.textContent = text;
+                    return;
+                }
+
+                // Span child without data attributes (old structure)
+                var plainSpan = Array.from(el.children).find(function(c) {
+                    return c.tagName === 'SPAN' && !c.dataset.de;
+                });
+                if (plainSpan) {
+                    plainSpan.textContent = text;
+                    return;
+                }
+
+                // Icon + text pattern
+                var icon = el.querySelector('i');
+                if (icon && el.children.length === 1) {
+                    var iconClone = icon.cloneNode(true);
+                    el.innerHTML = '';
+                    el.appendChild(iconClone);
+                    el.appendChild(document.createTextNode(' ' + text));
+                    return;
+                }
+            });
+
             // Update placeholders
             document.querySelectorAll('[data-de-placeholder][data-en-placeholder]').forEach(function(el) {
                 el.placeholder = el.dataset[lang + 'Placeholder'];

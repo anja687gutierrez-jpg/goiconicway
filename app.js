@@ -590,9 +590,9 @@
                     var btnText = this.querySelector('.btn-text');
                     card.classList.toggle('active');
                     if (card.classList.contains('active')) {
-                        btnText.textContent = currentLang === 'en' ? 'Close Plan' : 'Plan Schließen';
+                        btnText.textContent = 'Close Plan';
                     } else {
-                        btnText.textContent = currentLang === 'en' ? 'View Itinerary' : 'Reiseplan Anzeigen';
+                        btnText.textContent = 'View Itinerary';
                     }
                 });
             });
@@ -623,7 +623,7 @@
             var btn = document.querySelector('.app-download-btn');
             if (btn) {
                 btn.addEventListener('click', function() {
-                    window.open(SITE_CONFIG.WHATSAPP_URL + '?text=' + encodeURIComponent('Hallo! Ich interessiere mich für die App. Wie kann ich sie herunterladen?'), '_blank');
+                    window.open(SITE_CONFIG.WHATSAPP_URL + '?text=' + encodeURIComponent('Hi! I\'m interested in the app. How can I download it?'), '_blank');
                 });
             }
         }
@@ -632,8 +632,7 @@
             document.querySelectorAll('.route-concierge-btn').forEach(function(btn) {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    var promptKey = currentLang === 'en' ? 'promptEn' : 'promptDe';
-                    var prompt = this.dataset[promptKey];
+                    var prompt = this.dataset.promptEn;
                     var aiInput = document.getElementById('ai-input');
                     if (aiInput && prompt) {
                         aiInput.value = prompt;
@@ -859,18 +858,18 @@
                     var isEN = lang === 'en';
 
                     if (!startDateInput.value || !returnDateInput.value) {
-                        alert(isEN ? 'Please select a start and return date.' : 'Bitte wählen Sie ein Start- und Rückgabedatum.');
+                        alert('Please select a start and return date.');
                         return;
                     }
                     var startD = new Date(startDateInput.value);
                     var returnD = new Date(returnDateInput.value);
                     if (isNaN(startD.getTime()) || isNaN(returnD.getTime()) || returnD <= startD) {
-                        alert(isEN ? 'Return date must be after the start date.' : 'Das Rückgabedatum muss nach dem Startdatum liegen.');
+                        alert('Return date must be after the start date.');
                         return;
                     }
                     var selectedOption = carSelect.options[carSelect.selectedIndex];
                     if (!selectedOption.getAttribute('data-type')) {
-                        alert(isEN ? 'Please select a vehicle.' : 'Bitte wählen Sie ein Fahrzeug.');
+                        alert('Please select a vehicle.');
                         return;
                     }
 
@@ -885,9 +884,9 @@
                         pickupLocation: locationSelect.value,
                     };
 
-                    var dayLabel = isEN ? (days > 1 ? 'days' : 'day') : (days > 1 ? 'Tage' : 'Tag');
-                    var feeLabel = isEN ? 'Service Fee' : 'Servicegebühr';
-                    var disclaimer = isEN ? 'Final price confirmed after availability check' : 'Endpreis wird nach Verfügbarkeitsprüfung bestätigt';
+                    var dayLabel = days > 1 ? 'days' : 'day';
+                    var feeLabel = 'Service Fee';
+                    var disclaimer = 'Final price confirmed after availability check';
                     emailSummary.innerHTML = '<strong>' + carSelect.value + '</strong> &middot; ' + days + ' ' + dayLabel + ' &middot; $' + totalPrice.toLocaleString() + ' &middot; ' + locationSelect.value + '<br><span style="color:#f97316;font-weight:600">+ $139 ' + feeLabel + '</span><br><span style="font-size:0.75rem;color:#999;">' + disclaimer + '</span>';
                     emailError.style.display = 'none';
                     emailInput.value = '';
@@ -904,13 +903,12 @@
                 emailSubmit.addEventListener('click', async function() {
                     var email = emailInput.value.trim();
                     if (!email || !email.includes('@')) {
-                        var lang = CoreUI.getLang();
-                        emailError.textContent = lang === 'en' ? 'Please enter a valid email address.' : 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
+                        emailError.textContent = 'Please enter a valid email address.';
                         emailError.style.display = 'block';
                         return;
                     }
                     emailSubmit.disabled = true;
-                    emailSubmit.textContent = CoreUI.getLang() === 'en' ? 'Processing...' : 'Verarbeitung...';
+                    emailSubmit.textContent = 'Processing...';
                     emailError.style.display = 'none';
 
                     try {
@@ -927,10 +925,10 @@
                         if (!res.ok) throw new Error(data.error || 'Checkout failed');
                         window.location.href = data.checkoutUrl;
                     } catch (err) {
-                        emailError.textContent = err.message || (CoreUI.getLang() === 'en' ? 'Something went wrong. Please try again.' : 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.');
+                        emailError.textContent = err.message || 'Something went wrong. Please try again.';
                         emailError.style.display = 'block';
                         emailSubmit.disabled = false;
-                        emailSubmit.textContent = CoreUI.getLang() === 'en' ? 'Book Now — Secure Checkout' : 'Jetzt Buchen — Sichere Zahlung';
+                        emailSubmit.textContent = 'Book Now — Secure Checkout';
                     }
                 });
             }
@@ -975,37 +973,28 @@
                     document.querySelectorAll('.mode-btn').forEach(function(b) { b.classList.remove('active'); });
                     this.classList.add('active');
                     currentMode = this.dataset.mode;
-                    var placeholders = {
-                        de: { route: 'z.B. Plane eine 7-tägige Reise nach Zion von Las Vegas...', packing: 'z.B. Was sollte ich für einen Winter-Campingtrip einpacken?', tesla: 'z.B. Wie funktioniert der Camp-Modus?', vehicle: 'z.B. Welcher Tesla ist am besten für eine 4-köpfige Familie?', traffic: 'z.B. Beste Zeit für den Grand Canyon?' },
-                        en: { route: 'e.g. Plan a 7-day trip to Zion from Las Vegas...', packing: 'e.g. What should I pack for a winter camping trip?', tesla: 'e.g. How does Camp Mode work?', vehicle: 'e.g. Which Tesla is best for a family of 4?', traffic: 'e.g. Best time for Grand Canyon?' }
-                    };
-                    var lang = CoreUI.getLang();
-                    var lp = placeholders[lang] || placeholders.de;
-                    aiInput.placeholder = lp[currentMode] || '';
+                    var placeholders = { route: 'e.g. Plan a 7-day trip to Zion from Las Vegas...', packing: 'e.g. What should I pack for a winter camping trip?', tesla: 'e.g. How does Camp Mode work?', vehicle: 'e.g. Which Tesla is best for a family of 4?', traffic: 'e.g. Best time for Grand Canyon?' };
+                    aiInput.placeholder = placeholders[currentMode] || '';
                 });
             });
 
             // Expose askAI for event delegation
             function askAI() {
                 if (!aiInput.value.trim()) return;
-                var lang = CoreUI.getLang();
                 aiOutput.style.display = 'block';
-                var loadingText = lang === 'en' ? 'Planning your adventure...' : 'Plane dein Abenteuer...';
-                aiOutput.innerHTML = '<span style="color:#64748b"><i class="fas fa-circle-notch fa-spin"></i> ' + loadingText + '</span>';
+                aiOutput.innerHTML = '<span style="color:#64748b"><i class="fas fa-circle-notch fa-spin"></i> Planning your adventure...</span>';
 
                 fetch(SITE_CONFIG.CONCIERGE_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: aiInput.value.trim(), mode: currentMode, language: lang })
+                    body: JSON.stringify({ message: aiInput.value.trim(), mode: currentMode, language: 'en' })
                 })
                 .then(function(response) {
                     return response.json().then(function(data) { return { status: response.status, ok: response.ok, data: data }; });
                 })
                 .then(function(result) {
                     if (result.status === 429) {
-                        var msg = CoreUI.getLang() === 'en'
-                            ? (result.data.error || 'Rate limit reached. Please try again later.')
-                            : (result.data.error_de || 'Anfragelimit erreicht. Bitte versuchen Sie es später erneut.');
+                        var msg = result.data.error || 'Rate limit reached. Please try again later.';
                         aiOutput.innerHTML = '<div style="display:flex;align-items:flex-start;gap:0.75rem"><i class="fas fa-clock" style="color:#f59e0b;margin-top:2px"></i><div><strong style="color:var(--text-main)">' + msg + '</strong></div></div>';
                         aiOutput.classList.add('visible');
                         return;
@@ -1016,9 +1005,8 @@
                 })
                 .catch(function(error) {
                     console.error('AI Concierge Exception:', error);
-                    var lang = CoreUI.getLang();
-                    var title = lang === 'en' ? 'Our concierge is currently offline.' : 'Unser Concierge ist gerade offline.';
-                    var text = lang === 'en' ? 'Please use the WhatsApp button below for human assistance.' : 'Bitte nutzen Sie den WhatsApp-Button unten für persönliche Hilfe.';
+                    var title = 'Our concierge is currently offline.';
+                    var text = 'Please use the WhatsApp button below for human assistance.';
                     aiOutput.innerHTML = '<div style="display:flex;align-items:flex-start;gap:0.75rem"><i class="fas fa-satellite-dish" style="color:var(--accent-blue);margin-top:2px"></i><div><strong style="color:var(--text-main)">' + title + '</strong><br><span style="color:var(--text-muted)">' + text + '</span></div></div>';
                     aiOutput.classList.add('visible');
                 });
@@ -1036,22 +1024,22 @@
             if (!klausyBubble) return;
 
             var getLang = function() { return CoreUI.getLang(); };
-            var whatsappUrl = SITE_CONFIG.WHATSAPP_URL + '?text=' + encodeURIComponent('Hallo, Klausy hat mich geschickt!');
+            var whatsappUrl = SITE_CONFIG.WHATSAPP_URL + '?text=' + encodeURIComponent('Hi, Klausy sent me!');
 
             var messages = {
-                welcome: { de: { text: 'Hallo! \ud83d\udc4b Ich bin Klausy, dein KI-Reiseberater. Tr\u00e4umst du von einem Tesla-Roadtrip durch die USA?', buttons: [{ text: 'Ja, erz\u00e4hl mir mehr!', action: 'scroll', target: '#fleet', primary: true }, { text: 'Sp\u00e4ter', action: 'dismiss' }] }, en: { text: "Hi there! \ud83d\udc4b I'm Klausy, your AI travel advisor. Dreaming of a Tesla road trip through the USA?", buttons: [{ text: 'Yes, tell me more!', action: 'scroll', target: '#fleet', primary: true }, { text: 'Maybe later', action: 'dismiss' }] } },
-                fleet: { de: { text: 'Tolle Wahl! \ud83d\ude97 Der Model Y Camping-Paket ist unser Bestseller - perfekt f\u00fcr Paare. Der Cybertruck ist ideal f\u00fcr Offroad-Abenteuer!', buttons: [{ text: 'Routen ansehen', action: 'scroll', target: '#routes', primary: true }, { text: 'WhatsApp Beratung', action: 'whatsapp' }] }, en: { text: 'Great choice! \ud83d\ude97 The Model Y Camping Package is our bestseller - perfect for couples. The Cybertruck is ideal for off-road adventures!', buttons: [{ text: 'View Routes', action: 'scroll', target: '#routes', primary: true }, { text: 'WhatsApp Chat', action: 'whatsapp' }] } },
-                routes: { de: { text: 'Die Route 66 ist legend\u00e4r! \ud83d\udee3\ufe0f 14 Tage von Chicago nach L.A. - ein unvergessliches Erlebnis. Oder lieber die Nationalparks?', buttons: [{ text: 'KI-Routenplaner testen', action: 'scroll', target: '#concierge', primary: true }, { text: 'Preise checken', action: 'scroll', target: '#booking-bar' }] }, en: { text: "Route 66 is legendary! \ud83d\udee3\ufe0f 14 days from Chicago to L.A. - an unforgettable experience. Or prefer the National Parks?", buttons: [{ text: 'Try AI Route Planner', action: 'scroll', target: '#concierge', primary: true }, { text: 'Check Prices', action: 'scroll', target: '#booking-bar' }] } },
-                concierge: { de: { text: 'Probier unseren KI-Routenplaner! \ud83e\udd16 Er erstellt dir eine personalisierte Route basierend auf deinen Interessen.', buttons: [{ text: 'Jetzt buchen', action: 'scroll', target: '#booking-bar', primary: true }, { text: 'Fragen? WhatsApp', action: 'whatsapp' }] }, en: { text: 'Try our AI Route Planner! \ud83e\udd16 It creates a personalized route based on your interests.', buttons: [{ text: 'Book Now', action: 'scroll', target: '#booking-bar', primary: true }, { text: 'Questions? WhatsApp', action: 'whatsapp' }] } },
-                inactive: { de: { text: 'Noch da? \ud83d\ude0a Kann ich dir bei der Planung helfen? Unser Team ist auch per WhatsApp erreichbar!', buttons: [{ text: 'Hilfe vom Team', action: 'whatsapp', primary: true }, { text: 'Ich schaue noch', action: 'dismiss' }] }, en: { text: "Still there? \ud83d\ude0a Can I help you with planning? Our team is also available via WhatsApp!", buttons: [{ text: 'Get Help', action: 'whatsapp', primary: true }, { text: 'Just browsing', action: 'dismiss' }] } },
-                exitIntent: { de: { text: 'Warte! \ud83c\udf81 Hol dir unseren GRATIS Roadtrip-Guide mit Packliste und Geheimtipps, bevor du gehst!', buttons: [{ text: 'Gratis Guide holen', action: 'scroll', target: '#heroLeadCapture', primary: true }, { text: 'Nein danke', action: 'dismiss' }] }, en: { text: "Wait! \ud83c\udf81 Get our FREE Roadtrip Guide with packing list and insider tips before you go!", buttons: [{ text: 'Get Free Guide', action: 'scroll', target: '#heroLeadCapture', primary: true }, { text: 'No thanks', action: 'dismiss' }] } },
-                userHelp_home: { de: { text: 'Hey! \ud83d\udc4b Ich bin Klausy, dein freundlicher KI-Concierge. Wie kann ich dir helfen?', buttons: [{ text: 'Fahrzeuge zeigen', action: 'scroll', target: '#fleet', primary: true }, { text: 'Mehr mit Klausy planen', action: 'scroll', target: '#concierge' }] }, en: { text: "Hey! \ud83d\udc4b I'm Klausy, your friendly AI Concierge. How can I help?", buttons: [{ text: 'Show Vehicles', action: 'scroll', target: '#fleet', primary: true }, { text: 'Plan more with Klausy', action: 'scroll', target: '#concierge' }] } },
-                userHelp_fleet: { de: { text: 'Du schaust dir die verf\u00fcgbaren Fahrzeuge an! \ud83d\ude97 Brauchst du Hilfe bei der Wahl?', buttons: [{ text: 'Klausy fragen', action: 'scroll', target: '#concierge', primary: true }, { text: 'WhatsApp Beratung', action: 'whatsapp' }] }, en: { text: "Checking out the available vehicles! \ud83d\ude97 Need help choosing?", buttons: [{ text: 'Ask Klausy', action: 'scroll', target: '#concierge', primary: true }, { text: 'WhatsApp Chat', action: 'whatsapp' }] } },
-                userHelp_routes: { de: { text: 'Die Routen sind fantastisch! \ud83d\udee3\ufe0f Soll ich dir mehr erz\u00e4hlen?', buttons: [{ text: 'Mit Klausy planen', action: 'scroll', target: '#concierge', primary: true }, { text: 'Preise checken', action: 'scroll', target: '#booking-bar' }] }, en: { text: "The routes are fantastic! \ud83d\udee3\ufe0f Want me to tell you more?", buttons: [{ text: 'Plan with Klausy', action: 'scroll', target: '#concierge', primary: true }, { text: 'Check Prices', action: 'scroll', target: '#booking-bar' }] } },
-                userHelp_concierge: { de: { text: 'Willkommen bei mir! \ud83e\udd16 Probier meinen Routenplaner oben aus!', buttons: [{ text: 'Jetzt buchen', action: 'scroll', target: '#booking-bar', primary: true }, { text: 'WhatsApp f\u00fcr Fragen', action: 'whatsapp' }] }, en: { text: "Welcome to my section! \ud83e\udd16 Try my route planner above!", buttons: [{ text: 'Book Now', action: 'scroll', target: '#booking-bar', primary: true }, { text: 'WhatsApp for Questions', action: 'whatsapp' }] } },
-                userHelp_testimonials: { de: { text: 'Unsere G\u00e4ste lieben ihre Abenteuer! \u2b50 Hast du noch Fragen?', buttons: [{ text: 'Mit Klausy planen', action: 'scroll', target: '#concierge', primary: true }, { text: 'Kontakt aufnehmen', action: 'whatsapp' }] }, en: { text: "Our guests love their adventures! \u2b50 Have questions?", buttons: [{ text: 'Plan with Klausy', action: 'scroll', target: '#concierge', primary: true }, { text: 'Get in Touch', action: 'whatsapp' }] } },
-                userHelp_contact: { de: { text: 'Bereit zu buchen? \ud83c\udf89 Bei Fragen bin ich oder unser Team per WhatsApp f\u00fcr dich da!', buttons: [{ text: 'WhatsApp Chat', action: 'whatsapp', primary: true }, { text: 'Nochmal Routen ansehen', action: 'scroll', target: '#routes' }] }, en: { text: "Ready to book? \ud83c\udf89 For questions, we're available via WhatsApp!", buttons: [{ text: 'WhatsApp Chat', action: 'whatsapp', primary: true }, { text: 'View Routes Again', action: 'scroll', target: '#routes' }] } },
-                pdfDelivery: { de: { text: '\ud83c\udf89 Dein Roadtrip-Guide ist da! Klick unten zum Download.', buttons: [{ text: '\ud83d\udce5 Guide herunterladen', action: 'download', target: '#PDF_PLACEHOLDER_DE', primary: true }, { text: 'Mit Klausy planen', action: 'scroll', target: '#concierge' }] }, en: { text: "\ud83c\udf89 Your roadtrip guide is ready! Click below to download.", buttons: [{ text: '\ud83d\udce5 Download Guide', action: 'download', target: '#PDF_PLACEHOLDER_EN', primary: true }, { text: 'Plan with Klausy', action: 'scroll', target: '#concierge' }] } }
+                welcome: { text: "Hi there! \ud83d\udc4b I'm Klausy, your AI travel advisor. Dreaming of a Tesla road trip through the USA?", buttons: [{ text: 'Yes, tell me more!', action: 'scroll', target: '#fleet', primary: true }, { text: 'Maybe later', action: 'dismiss' }] },
+                fleet: { text: 'Great choice! \ud83d\ude97 The Model Y Camping Package is our bestseller - perfect for couples. The Cybertruck is ideal for off-road adventures!', buttons: [{ text: 'View Routes', action: 'scroll', target: '#routes', primary: true }, { text: 'WhatsApp Chat', action: 'whatsapp' }] },
+                routes: { text: "Route 66 is legendary! \ud83d\udee3\ufe0f 14 days from Chicago to L.A. - an unforgettable experience. Or prefer the National Parks?", buttons: [{ text: 'Try AI Route Planner', action: 'scroll', target: '#concierge', primary: true }, { text: 'Check Prices', action: 'scroll', target: '#booking-bar' }] },
+                concierge: { text: 'Try our AI Route Planner! \ud83e\udd16 It creates a personalized route based on your interests.', buttons: [{ text: 'Book Now', action: 'scroll', target: '#booking-bar', primary: true }, { text: 'Questions? WhatsApp', action: 'whatsapp' }] },
+                inactive: { text: "Still there? \ud83d\ude0a Can I help you with planning? Our team is also available via WhatsApp!", buttons: [{ text: 'Get Help', action: 'whatsapp', primary: true }, { text: 'Just browsing', action: 'dismiss' }] },
+                exitIntent: { text: "Wait! \ud83c\udf81 Get our FREE Roadtrip Guide with packing list and insider tips before you go!", buttons: [{ text: 'Get Free Guide', action: 'scroll', target: '#heroLeadCapture', primary: true }, { text: 'No thanks', action: 'dismiss' }] },
+                userHelp_home: { text: "Hey! \ud83d\udc4b I'm Klausy, your friendly AI Concierge. How can I help?", buttons: [{ text: 'Show Vehicles', action: 'scroll', target: '#fleet', primary: true }, { text: 'Plan more with Klausy', action: 'scroll', target: '#concierge' }] },
+                userHelp_fleet: { text: "Checking out the available vehicles! \ud83d\ude97 Need help choosing?", buttons: [{ text: 'Ask Klausy', action: 'scroll', target: '#concierge', primary: true }, { text: 'WhatsApp Chat', action: 'whatsapp' }] },
+                userHelp_routes: { text: "The routes are fantastic! \ud83d\udee3\ufe0f Want me to tell you more?", buttons: [{ text: 'Plan with Klausy', action: 'scroll', target: '#concierge', primary: true }, { text: 'Check Prices', action: 'scroll', target: '#booking-bar' }] },
+                userHelp_concierge: { text: "Welcome to my section! \ud83e\udd16 Try my route planner above!", buttons: [{ text: 'Book Now', action: 'scroll', target: '#booking-bar', primary: true }, { text: 'WhatsApp for Questions', action: 'whatsapp' }] },
+                userHelp_testimonials: { text: "Our guests love their adventures! \u2b50 Have questions?", buttons: [{ text: 'Plan with Klausy', action: 'scroll', target: '#concierge', primary: true }, { text: 'Get in Touch', action: 'whatsapp' }] },
+                userHelp_contact: { text: "Ready to book? \ud83c\udf89 For questions, we're available via WhatsApp!", buttons: [{ text: 'WhatsApp Chat', action: 'whatsapp', primary: true }, { text: 'View Routes Again', action: 'scroll', target: '#routes' }] },
+                pdfDelivery: { text: "\ud83c\udf89 Your roadtrip guide is ready! Click below to download.", buttons: [{ text: '\ud83d\udce5 Download Guide', action: 'download', target: '#PDF_PLACEHOLDER_EN', primary: true }, { text: 'Plan with Klausy', action: 'scroll', target: '#concierge' }] }
             };
 
             var state = {
@@ -1072,8 +1060,7 @@
 
             function showMessage(key) {
                 if (state.dismissed || state.messageShown.has(key) || Date.now() < state.cooldownUntil || state.totalShown >= state.maxMessages || klausyBubble.classList.contains('visible')) return;
-                var lang = getLang();
-                var msg = messages[key] && messages[key][lang];
+                var msg = messages[key];
                 if (!msg) return;
                 state.messageShown.add(key);
                 state.totalShown++;
@@ -1095,8 +1082,7 @@
             function showUserHelp() {
                 if (klausyBubble.classList.contains('visible')) { hideMessage(0); return; }
                 var key = 'userHelp_' + state.currentSection;
-                var lang = getLang();
-                var msg = (messages[key] && messages[key][lang]) || (messages['userHelp_home'] && messages['userHelp_home'][lang]);
+                var msg = messages[key] || messages['userHelp_home'];
                 if (!msg) return;
                 klausyText.innerHTML = msg.text;
                 klausyActions.innerHTML = renderButtons(msg.buttons);
@@ -1106,8 +1092,7 @@
             window.showKlausyHelp = showUserHelp;
 
             function showPdfDelivery() {
-                var lang = getLang();
-                var msg = messages['pdfDelivery'] && messages['pdfDelivery'][lang];
+                var msg = messages['pdfDelivery'];
                 if (!msg) return;
                 klausyText.innerHTML = msg.text;
                 klausyActions.innerHTML = renderButtons(msg.buttons);
@@ -1137,7 +1122,7 @@
                         if (target && target.indexOf('#PDF_PLACEHOLDER') === -1) {
                             window.open(target, '_blank');
                         } else {
-                            alert(getLang() === 'de' ? 'Dein Guide wird in K\u00fcrze per E-Mail zugestellt!' : 'Your guide will be delivered to your email shortly!');
+                            alert('Your guide will be delivered to your email shortly!');
                         }
                         break;
                     case 'dismiss':
@@ -1224,9 +1209,8 @@
             var stickyLeadForm = document.getElementById('stickyLeadForm');
 
             function showFormSuccess(formElement) {
-                var lang = CoreUI.getLang();
-                var thankYou = lang === 'en' ? 'Thank You!' : 'Vielen Dank!';
-                var subtext = lang === 'en' ? 'Klausy has your guide!' : 'Klausy hat deinen Guide!';
+                var thankYou = 'Thank You!';
+                var subtext = 'Klausy has your guide!';
                 formElement.innerHTML = '<div class="lead-form-success"><i class="fas fa-check-circle"></i><h4>' + thankYou + '</h4><p>' + subtext + '</p></div>';
                 setTimeout(function() {
                     if (window.showKlausyPdfDelivery) window.showKlausyPdfDelivery();
@@ -1242,8 +1226,7 @@
                 if (!email) return;
 
                 submitBtn.disabled = true;
-                var lang = CoreUI.getLang();
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (lang === 'en' ? 'Sending...' : 'Senden...');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
                 fetch(SITE_CONFIG.GOOGLE_SHEETS_URL, {
                     method: 'POST', mode: 'no-cors',

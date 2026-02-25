@@ -16,7 +16,7 @@
         CONCIERGE_API_URL: 'https://giw-api.anja687gutierrez.workers.dev/api/concierge',
         CHECKOUT_API: 'https://abenteuer-mieten-platform.vercel.app/api/public/checkout',
         BOOKING_SOURCE: 'goiconicway',
-        GOOGLE_SHEETS_URL: 'https://script.google.com/macros/s/REPLACE_WITH_NEW_APPS_SCRIPT_ENDPOINT/exec',
+        GOOGLE_SHEETS_URL: 'https://script.google.com/macros/s/AKfycbzF4t-juXYphl5JjFjzurt9ARcaYnyOHYo4vCVUgmb99l96p-seSdcQJTZKaP5d92icyg/exec',
         GA4_MEASUREMENT_ID: 'G-XXXXXXXXXX',
         GOOGLE_ADS_ID: 'AW-XXXXXXXXXX',
         META_PIXEL_ID: 'XXXXXXXXXXXXXXXX',
@@ -1231,7 +1231,7 @@
                 fetch(SITE_CONFIG.GOOGLE_SHEETS_URL, {
                     method: 'POST', mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: email, source: formId })
+                    body: JSON.stringify({ email: email, source: SITE_CONFIG.SITE_ID + ':' + formId })
                 })
                 .then(function() {
                     localStorage.setItem(prefix + '_subscribed', 'true');

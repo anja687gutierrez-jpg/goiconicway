@@ -16,7 +16,7 @@
         CONCIERGE_API_URL: 'https://giw-api.anja687gutierrez.workers.dev/api/concierge',
         CHECKOUT_API: 'https://abenteuer-mieten-platform.vercel.app/api/public/checkout',
         BOOKING_SOURCE: 'goiconicway',
-        GOOGLE_SHEETS_URL: 'https://script.google.com/macros/s/AKfycbzF4t-juXYphl5JjFjzurt9ARcaYnyOHYo4vCVUgmb99l96p-seSdcQJTZKaP5d92icyg/exec',
+        GOOGLE_SHEETS_URL: 'https://script.google.com/macros/s/AKfycbyxfNu1agsGuY2fVx7hJ-_3W-ogGg3kEx81Jgm_6LmWUAkjXCPemR2_2B35dFbdF7c/exec',
         GA4_MEASUREMENT_ID: 'G-XXXXXXXXXX',
         GOOGLE_ADS_ID: 'AW-XXXXXXXXXX',
         META_PIXEL_ID: 'XXXXXXXXXXXXXXXX',
